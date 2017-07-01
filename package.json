@@ -1,6 +1,6 @@
 {
   "name": "next-i18n-helper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "i18next": "^8.4.2",
+    "i18next-localstorage-cache": "^1.1.1",
     "i18next-xhr-backend": "^1.4.2",
     "js-cookie": "^2.1.4",
     "locale": "^0.1.0"
