@@ -29,7 +29,7 @@ export default class I18nHelper {
       supportLangs = ['en'],
       langCookieName = 'lang',
       langCookieExpire = 365,
-      plugins = [XHR, cache],
+      plugins = isServerSide?[]:[XHR, cache],
       i18nOption = {
         cache: {
           enabled: true,
