@@ -78,4 +78,38 @@ Header.translateNS = translateNS
 export default translate(translateNS)(Header)
 ```
 
+## config
+
+```
+export const i18nHelper = new I18nHelper({
+  defaultLang: 'zh',
+  supportLangs: ['en','zh']
+})
+```
+
+```
+/**
+ * I18nHelper
+ */
+export default class I18nHelper {
+
+  /**
+   * Creates an instance of I18nHelper.
+   * @param {Object} opt
+   * @param {string} [opt.defaultLang = 'en'] default language
+   * @param {string[]} [opt.supportLangs = ['en']] support languages
+   * @param {string} [opt.langCookieName = 'lang'] cookie to remember selected language
+   * @param {number} [opt.langCookieExpire = 365] cookie expires in xxx days
+   * @param {string} [opt.localesBaseUrl = '/static/locales'] locale file location
+   * @param {Object} [opt.i18nOption] to extend i18next config 
+   * @param {module[]} [opt.plugins] i18next plugins, default cache and xhr for browser side
+   * @memberof I18nHelper
+   */
+  constructor(opt = {}) {
+    ...
+```
+
+
+## example
 full example see [example](./example) 
+

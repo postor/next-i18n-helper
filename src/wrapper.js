@@ -26,7 +26,8 @@ export default (i18nHelper) => (Page) => class Wrapper extends React.Component {
     )
 
     return {
-      translations
+      translations,
+      pageInitialProps
     }
   }
 

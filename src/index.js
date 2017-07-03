@@ -20,9 +20,9 @@ export default class I18nHelper {
    * @param {string[]} [opt.supportLangs = ['en']] 支持的语言
    * @param {string} [opt.langCookieName = 'lang'] 使用cookie名
    * @param {number} [opt.langCookieExpire = 365] cookie过期时间（天）
+   * @param {string} [opt.localesBaseUrl] 文件的基础位置
    * @param {Object} [opt.i18nOption] 扩展i18n的参数
    * @param {module[]} [opt.plugins] i18n插件，默认xhr和localstorage
-   * @param {string} [opt.localesBaseUrl] 文件的基础位置
    * @memberof I18nHelper
    */
   constructor(opt = {}) {
