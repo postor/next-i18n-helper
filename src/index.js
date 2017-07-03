@@ -3,6 +3,7 @@ import locale from 'locale'
 import i18n from 'i18next'
 import XHR from 'i18next-xhr-backend'
 import cache from 'i18next-localstorage-cache'
+import wrapper from './wrapper'
 
 
 const isServerSide = (typeof window === 'undefined')
@@ -21,6 +22,7 @@ export default class I18nHelper {
    * @param {number} [opt.langCookieExpire = 365] cookie过期时间（天）
    * @param {Object} [opt.i18nOption] 扩展i18n的参数
    * @param {module[]} [opt.plugins] i18n插件，默认xhr和localstorage
+   * @param {string} [opt.localesBaseUrl] 文件的基础位置
    * @memberof I18nHelper
    */
   constructor(opt = {}) {
@@ -30,14 +32,15 @@ export default class I18nHelper {
       langCookieName = 'lang',
       langCookieExpire = 365,
       plugins = isServerSide?[]:[XHR, cache],
+      localesBaseUrl = '/static/locales',
       i18nOption = {
         cache: {
           enabled: true,
           expirationTime: 7 * 24 * 60 * 60 * 1000
         },
         backend: {
-          loadPath: '/static/locales/{{lng}}/{{ns}}.json',
-          addPath: '/static/locales/{{lng}}/{{ns}}.json',
+          loadPath: `${localesBaseUrl}/{{lng}}/{{ns}}.json`,
+          addPath: `${localesBaseUrl}/{{lng}}/{{ns}}.json`,
         }
       },
     } = opt
@@ -48,9 +51,14 @@ export default class I18nHelper {
     this.langCookieExpire = langCookieExpire
     this.i18nOption = i18nOption
     this.plugins = plugins
+    this.localesBaseUrl = localesBaseUrl
 
     this.i18n = null
     this.currentLang = null
+  }
+
+  getWrapper(){
+    return wrapper(this)
   }
 
 
@@ -60,13 +68,14 @@ export default class I18nHelper {
    * @return {string}
    */
   getCurrentLanguage(req) {
+    var that = this
     var getCurrentLang = () => {
       //from cookie
-      var fromCookie = req ? req.cookies[this.langCookieName] : Cookies.get(this.langCookieName)
+      var fromCookie = req ? (req.cookies?req.cookies[that.langCookieName]:'') : Cookies.get(that.langCookieName)
 
-      if (this.supportLangs.includes(fromCookie)) return fromCookie
+      if (that.supportLangs.includes(fromCookie)) return fromCookie
 
-      var supported = new locale.Locales(this.supportLangs, this.defaultLang)
+      var supported = new locale.Locales(that.supportLangs, that.defaultLang)
       if (req) {
         var locales = new locale.Locales(req.headers["accept-language"])
         return locales.best(supported).language

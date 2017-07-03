@@ -1,0 +1,21 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "next": "beta",
+    "next-i18n-helper": "^1.0.12",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-i18next": "^4.6.1"
+  }
+}
