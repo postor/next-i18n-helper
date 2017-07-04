@@ -7,7 +7,12 @@ export default (i18nHelper) => (Page) => class Wrapper extends React.Component {
     super(props)
     const { translations, pageInitialProps = {} } = props
     this.i18n = i18nHelper.getI18n(translations)
-    this.pageInitialProps = pageInitialProps
+    this.pageInitialProps = {
+      ...props,
+      ...pageInitialProps
+    }
+    delete this.pageInitialProps.pageInitialProps
+    delete this.pageInitialProps.translations
   }
 
   static async getInitialProps(ctx) {
