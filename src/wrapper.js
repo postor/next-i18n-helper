@@ -19,6 +19,9 @@ export default (i18nHelper) => (Page) => class Wrapper extends React.Component {
     var pageInitialProps = {}
     Page.getInitialProps && (pageInitialProps = await Page.getInitialProps(ctx))
 
+    // 前台直接返回
+    if (!ctx.req) return { pageInitialProps }
+
     //translation
     var translateNS = [...Page.translateNS || []].filter(function (item, pos, self) {
       return self.indexOf(item) == pos;
