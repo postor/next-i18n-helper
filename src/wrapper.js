@@ -40,8 +40,9 @@ export default (i18nHelper) => (Page) => class Wrapper extends React.Component {
   }
 
   render() {
+    const pageInitialProps = { ...this.pageInitialProps, ...this.props.pageInitialProps }
     return <I18nextProvider i18n={this.i18n}>
-      <Page {...this.pageInitialProps} />
+      <Page {...pageInitialProps} />
     </I18nextProvider>
   }
 }
