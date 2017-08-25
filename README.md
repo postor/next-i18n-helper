@@ -111,5 +111,5 @@ export default class I18nHelper {
 
 
 ## example
-full example see [example](./example) 
-
+example see [example](./example) 
+working site: http://nextjs.i18ntech.com/ code: https://github.com/nextjs-boilerplate/bootstrap
