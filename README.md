@@ -1,6 +1,8 @@
 # next-i18n-helper
 
-make i18next easier to work in both server side and client side
+[中文说明](./zh.md)
+
+make i18next easier to work in both server side and client side 
 
 # usage
 
