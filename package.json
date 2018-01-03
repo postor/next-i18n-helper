@@ -28,7 +28,6 @@
     "babel-runtime": "^6.23.0"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
     "i18next": "^8.4.2",
     "i18next-localstorage-cache": "^1.1.1",
     "i18next-xhr-backend": "^1.4.2",

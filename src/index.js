@@ -1,4 +1,3 @@
-import "babel-polyfill"
 import Cookies from 'js-cookie'
 import locale from 'locale'
 import i18n from 'i18next'
