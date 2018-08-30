@@ -80,6 +80,73 @@ Header.translateNS = translateNS
 export default translate(translateNS)(Header)
 ```
 
+install `react-i18next` and `express`
+
+```
+yarn add react-i18next express
+```
+
+`server.js`
+
+```
+const express = require('express')
+const next = require('next')
+
+const port = parseInt(process.env.PORT, 10) || 3000
+const dev = process.env.NODE_ENV !== 'production'
+const app = next({ dev })
+const handle = app.getRequestHandler()
+
+app.prepare()
+  .then(() => {
+    const server = express()
+    server.use('/static', express.static('static'))
+
+    server.get('*', (req, res) => {
+      return handle(req, res)
+    })
+
+    server.listen(port, (err) => {
+      if (err) throw err
+      console.log(`> Ready on http://localhost:${port}`)
+    })
+  })
+```
+
+`static/locales/en/common.json`
+
+```
+{
+  "Home":"Home"
+}
+```
+
+`static/locales/zh/common.json`
+
+```
+{
+  "Home":"首頁"
+}
+```
+
+
+`static/locales/en/index.json`
+
+```
+{
+  "My Blog":"My Blog"
+}
+```
+
+`static/locales/zh/index.json`
+
+```
+{
+  "My Blog":"我的博客"
+}
+```
+
+
 ## config
 
 ```
