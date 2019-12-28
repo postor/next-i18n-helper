@@ -5,6 +5,8 @@ import XHR from 'i18next-xhr-backend'
 import cache from 'i18next-localstorage-cache'
 import wrapper from './wrapper'
 
+import { initReactI18next } from 'react-i18next'
+
 
 const isServerSide = (typeof window === 'undefined')
 
@@ -31,7 +33,7 @@ export default class I18nHelper {
       supportLangs = ['en'],
       langCookieName = 'lang',
       langCookieExpire = 365,
-      plugins = isServerSide?[]:[XHR, cache],
+      plugins = isServerSide ? [initReactI18next] : [initReactI18next, XHR, cache],
       localesBaseUrl = '/static/locales',
       i18nOption = {
         cache: {
@@ -57,7 +59,7 @@ export default class I18nHelper {
     this.currentLang = null
   }
 
-  getWrapper(){
+  getWrapper() {
     return wrapper(this)
   }
 
@@ -71,7 +73,7 @@ export default class I18nHelper {
     var that = this
     var getCurrentLang = () => {
       //from cookie
-      var fromCookie = req ? (req.cookies?req.cookies[that.langCookieName]:'') : Cookies.get(that.langCookieName)
+      var fromCookie = req ? (req.cookies ? req.cookies[that.langCookieName] : '') : Cookies.get(that.langCookieName)
 
       if (that.supportLangs.includes(fromCookie)) return fromCookie
 
@@ -143,10 +145,10 @@ export default class I18nHelper {
         return i18n.use(plugin)
       }, i18n)
         .init(
-        {
-          ...options,
-          ...that.i18nOption
-        }
+          {
+            ...options,
+            ...that.i18nOption
+          }
         )
 
       translationData && Object.keys(translationData).forEach((lang) => {

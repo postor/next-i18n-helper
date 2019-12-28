@@ -1,5 +1,5 @@
 
-import { translate } from 'react-i18next'
+import { withTranslation as translate } from 'react-i18next'
 import { i18nHelper } from '../components/i18n'
 
 const translateNS = ['common']
@@ -14,6 +14,7 @@ const Header = (props) => (<p>
   </select>
 </p>)
 
-Header.translateNS = translateNS
+const TranslatedHeader = translate(translateNS)(Header)
+TranslatedHeader.translateNS = translateNS
 
-export default translate(translateNS)(Header)
+export default TranslatedHeader
