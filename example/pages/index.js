@@ -1,5 +1,5 @@
 
-import { translate } from 'react-i18next'
+import { withTranslation as translate } from 'react-i18next'
 import { wrapper } from '../components/i18n'
 import Header from '../components/Header'
 

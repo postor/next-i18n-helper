@@ -4,18 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "node server.js",
     "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cookie-parser": "^1.4.3",
-    "express": "^4.15.3",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
     "next": "beta",
-    "next-i18n-helper": "^1.0.12",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-i18next": "^4.6.1"
+    "next-i18n-helper": "^1.0.20",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-i18next": "^11.2.7"
   }
 }

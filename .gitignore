@@ -1,7 +1,6 @@
 node_modules
 dist
 /yarn.lock
-/example/.next
 /package-lock.json
 yarn-error.log
 .next

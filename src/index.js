@@ -28,13 +28,13 @@ export default class I18nHelper {
    * @memberof I18nHelper
    */
   constructor(opt = {}) {
-    console.log(`constructor I18nHelper`)
+    // console.log(`constructor I18nHelper`)
     const {
       defaultLang = 'en',
       supportLangs = ['en'],
       langCookieName = 'lang',
       langCookieExpire = 365,
-      plugins = isServerSide?[]:[XHR, cache],
+      plugins = isServerSide ? [initReactI18next] : [initReactI18next, XHR, cache],
       localesBaseUrl = '/static/locales',
       i18nOption = {
         cache: {
@@ -64,7 +64,7 @@ export default class I18nHelper {
     if (!isServerSide) window.i18n = this
   }
 
-  getWrapper(){
+  getWrapper() {
     return wrapper(this)
   }
 
@@ -131,6 +131,7 @@ export default class I18nHelper {
     return this.i18n
   }
 
+
   innerGetI18n(i18nPlugins) {
     var ns = ['common']
     var options = {
@@ -162,7 +163,7 @@ export default class I18nHelper {
 
   async init(options) {
     
-    console.log(`init I18nHelper`)
+    // console.log(`init I18nHelper`)
     await this.i18n.init({
       ...this.options,
       ...options
