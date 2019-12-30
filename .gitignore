@@ -3,5 +3,3 @@ dist
 /yarn.lock
 /example/.next
 /package-lock.json
-yarn-error.log
-.next
