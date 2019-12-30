@@ -7,8 +7,8 @@ import wrapper from './wrapper'
 
 import { initReactI18next } from 'react-i18next'
 
-
 const isServerSide = (typeof window === 'undefined')
+
 
 /**
  * 多国语言帮助类
@@ -28,6 +28,7 @@ export default class I18nHelper {
    * @memberof I18nHelper
    */
   constructor(opt = {}) {
+    console.log(`constructor I18nHelper`)
     const {
       defaultLang = 'en',
       supportLangs = ['en'],
@@ -43,10 +44,12 @@ export default class I18nHelper {
         backend: {
           loadPath: `${localesBaseUrl}/{{lng}}/{{ns}}.json`,
           addPath: `${localesBaseUrl}/{{lng}}/{{ns}}.json`,
+        },
+        react: {
+          useSuspense: false,
         }
-      },
+      }
     } = opt
-
     this.defaultLang = defaultLang
     this.supportLangs = supportLangs
     this.langCookieName = langCookieName
@@ -57,6 +60,8 @@ export default class I18nHelper {
 
     this.i18n = null
     this.currentLang = null
+    this.getI18n(plugins)
+    if (!isServerSide) window.i18n = this
   }
 
   getWrapper() {
@@ -69,27 +74,26 @@ export default class I18nHelper {
    * @param {Request} req Request 对象来自express 
    * @return {string}
    */
-  getCurrentLanguage(req) {
-    var that = this
-    var getCurrentLang = () => {
-      //from cookie
-      var fromCookie = req ? (req.cookies ? req.cookies[that.langCookieName] : '') : Cookies.get(that.langCookieName)
-
-      if (that.supportLangs.includes(fromCookie)) return fromCookie
-
-      var supported = new locale.Locales(that.supportLangs, that.defaultLang)
-      if (req) {
-        var locales = new locale.Locales(req.headers["accept-language"])
-        return locales.best(supported).language
-      } else {
-        var locales = new locale.Locales(navigator.language || navigator.userLanguage)
-        return locales.best(supported).language
-      }
+  getCurrentLanguage() {
+    var fromCookie = Cookies.get(this.langCookieName)
+    if (this.supportLangs.includes(fromCookie)) return fromCookie
+    var supported = new locale.Locales(this.supportLangs, this.defaultLang)
+    if (isServerSide) {
+      return this.defaultLang
     }
+    var locales = new locale.Locales(navigator.language || navigator.userLanguage)
+    return locales.best(supported).language
+  }
 
-    (req || !this.currentLang) && (this.currentLang = getCurrentLang())
+  getCurrentLanguageFromReq(req) {
+    //from cookie
+    var fromCookie = req.cookies ? req.cookies[this.langCookieName] : ''
+    // console.log({fromCookie})
 
-    return this.currentLang
+    if (this.supportLangs.includes(fromCookie)) return fromCookie
+
+    var locales = new locale.Locales(req.headers["accept-language"])
+    return locales.best(supported).language
   }
 
   /**
@@ -101,6 +105,7 @@ export default class I18nHelper {
   setCurrentLanguage(lang) {
     if (isServerSide) return
     Cookies.set(this.langCookieName, lang, { expires: this.langCookieExpire })
+    // console.log(this.i18n)
     this.i18n.changeLanguage(lang)
     this.currentLang = lang
   }
@@ -116,49 +121,64 @@ export default class I18nHelper {
   /**
    * 获取初始化的i18n实例，server side始终新建，客户端单例模式
    * @param {any} translationData 
+   * @param {any} req 
    * @param {any[]} i18nPlugins 
    * @returns {instance of I18next}
    */
-  getI18n(translationData, i18nPlugins) {
-    const that = this
-    if (isServerSide) return innerGetI18n()
-
+  getI18n(i18nPlugins) {
     if (this.i18n) return this.i18n
-
-    this.i18n = innerGetI18n()
+    this.i18n = this.innerGetI18n(i18nPlugins)
     return this.i18n
+  }
 
-    function innerGetI18n() {
-      var ns = ['common']
-      translationData && translationData[that.currentLang] && (ns = Object.keys(translationData[that.currentLang]))
-      var options = {
-        lng: that.getCurrentLanguage(), // active language http://i18next.com/translate/
-        fallbackLng: that.defaultLang,
-        resources: isServerSide ? translationData : undefined,
-        ns,
-        defaultNS: 'common',
-        debug: false,
-        initImmediate: isServerSide,
-      }
 
-      var i18nInstance = (i18nPlugins || that.plugins).reduce((i18n, plugin) => {
-        return i18n.use(plugin)
-      }, i18n)
-        .init(
-          {
-            ...options,
-            ...that.i18nOption
-          }
-        )
+  innerGetI18n(i18nPlugins) {
+    var ns = ['common']
+    var options = {
+      lng: this.getCurrentLanguage(), // active language http://i18next.com/translate/
+      fallbackLng: this.defaultLang,
+      ns,
+      defaultNS: 'common',
+      debug: false,
+      initImmediate: isServerSide,
+    }
+      ;
+    // console.log(this.plugins,i18nPlugins)
+    (i18nPlugins || this.plugins).reduce((i18n, plugin) => {
+      return i18n.use(plugin)
+    }, i18n)
 
-      translationData && Object.keys(translationData).forEach((lang) => {
-        Object.keys(translationData[lang]).forEach((ns) => {
-          i18nInstance.addResourceBundle(lang, ns, translationData[lang][ns])
-        })
-      })
-
-      return i18nInstance
+    this.options = {
+      ...options,
+      ...this.i18nOption
     }
 
+    // if(!isServerSide){
+    //   this.i18n = i18n
+    //   this.init()
+    // }
+
+    return i18n
+  }
+
+  async init(options) {
+    
+    console.log(`init I18nHelper`)
+    await this.i18n.init({
+      ...this.options,
+      ...options
+    })
+    this.inited = true
+  }
+
+  addTrans(data) {
+    // console.log(data)
+    const i18n = this.getI18n()
+    for (const [lang, v1] of Object.entries(data)) {
+      for (const [ns, v2] of Object.entries(v1)) {
+        i18n.addResourceBundle(lang, ns, v2)
+      }
+    }
   }
 }
+
