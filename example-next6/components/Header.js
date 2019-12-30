@@ -1,4 +1,3 @@
-
 import { translate } from 'react-i18next'
 import { i18nHelper } from '../components/i18n'
 

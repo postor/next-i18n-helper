@@ -34,7 +34,7 @@ export default class I18nHelper {
       supportLangs = ['en'],
       langCookieName = 'lang',
       langCookieExpire = 365,
-      plugins = isServerSide ? [initReactI18next] : [initReactI18next, XHR, cache],
+      plugins = isServerSide?[]:[XHR, cache],
       localesBaseUrl = '/static/locales',
       i18nOption = {
         cache: {
@@ -64,7 +64,7 @@ export default class I18nHelper {
     if (!isServerSide) window.i18n = this
   }
 
-  getWrapper() {
+  getWrapper(){
     return wrapper(this)
   }
 
@@ -130,7 +130,6 @@ export default class I18nHelper {
     this.i18n = this.innerGetI18n(i18nPlugins)
     return this.i18n
   }
-
 
   innerGetI18n(i18nPlugins) {
     var ns = ['common']

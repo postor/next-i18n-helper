@@ -1,5 +1,11 @@
 # next-i18n-helper
 
+notice: because `i18next` and `react-i18next` api changed a lot, if you use thi package you need to use their old versions
+
+- "i18next": "8.4.2"
+- "react-i18next": "7.11.0"
+
+
 [中文说明](./zh.md)
 
 make i18next easier to work in both server side and client side 
