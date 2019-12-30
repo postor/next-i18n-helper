@@ -1,8 +1,8 @@
-import I18nHelper from '../../dist/index'
-import getWrapper from '../../dist/wrapper'
+import I18nHelper from '../src/index'
+import getWrapper from '../src/wrapper'
 
 export const i18nHelper = new I18nHelper({
-  defaultLang: 'zh',
+  defaultLang: 'en',
   supportLangs: ['en', 'zh']
 })
 

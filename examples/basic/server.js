@@ -14,7 +14,7 @@ app.prepare()
   //cookie
   server.use(cookieParser())
   //static
-  server.use('/static',express.static('static'))
+  server.use('/static',express.static('public'))
 
   
   server.get('*', (req, res) => {

@@ -1,162 +1,124 @@
 # next-i18n-helper
 
-[中文说明](./zh.md)
+i18n for next.js | 给 next.js 适配多国语言
 
-make i18next easier to work in both server side and client side 
+# usage | 使用
 
-# usage
-
-install
+install | 安装
 
 ```
 npm install next-i18n-helper --save
 ```
 
-components/i18n.js -- config your i18n
+[components/i18n.js](./examples/basic/components/i18n.js) -- config your i18n | 配置你的 i18n
 
 ```
 import I18nHelper from 'next-i18n-helper'
 import getWrapper from 'next-i18n-helper/dist/wrapper'
 
 export const i18nHelper = new I18nHelper({
-  defaultLang: 'zh',
-  supportLangs: ['en','zh']
+  defaultLang: 'en',  // 默认语言
+  supportLangs: ['en','zh'] // 支持的语言列表
 })
 
 export const wrapper = getWrapper(i18nHelper)
 ```
 
-pages/index.js -- page need to translate
+
+[`server.js`](./examples/basic/`server.js`) 
 
 ```
-
-import { translate } from 'react-i18next'
-import { wrapper } from '../components/i18n'
-import Header from '../components/Header'
-
-const translateNS = ['index']
-
-const Index = (props) => {
-  const { t } = props
-
-  return (<div>
-    <Header />
-    <h1>{t('My Blog')}</h1>
-    <p>
-      <a>{t('See my posts')} >></a>
-    </p>
-    <p>
-      <a>{t('See my first post')} >></a>
-    </p>
-
-  </div>)
-}
-
-Index.translateNS = [...translateNS, ...Header.translateNS]
-
-export default wrapper(translate(translateNS)(Index))
-```
-
-components/Header.js -- component translate and change language
-
-```
-import { translate } from 'react-i18next'
-import { i18nHelper } from '../components/i18n'
-
-const translateNS = ['common']
-
-const Header = (props) => (<p>
-  current page is <strong>{props.t('Home')}</strong>
-  <select value={i18nHelper.getCurrentLanguage()} onChange={(e) =>
-    i18nHelper.setCurrentLanguage(e.target.value)
-  }>
-    <option value="en">English</option>
-    <option value="zh">中文</option>
-  </select>
-</p>)
-
-Header.translateNS = translateNS
-
-export default translate(translateNS)(Header)
-```
-
-install `react-i18next` and `express`
-
-```
-yarn add react-i18next express cookie-parser
-```
-
-`server.js`
-
-```
-const express = require('express')
-const next = require('next')
+...
 const cookieParser = require('cookie-parser')
-
-const port = parseInt(process.env.PORT, 10) || 3000
-const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
-const handle = app.getRequestHandler()
+...
 
 app.prepare()
   .then(() => {
     const server = express()
-    server.use(cookieParser())
-    server.use('/static', express.static('static'))
+    server.use(cookieParser()) // next-i18n-helper use cookie to store user choose language | 使用 cookie 保存用户所选语言
+    server.use('/static', express.static('public')) // publish your translation for xhr translate | 用于 xhr 翻译
 
     server.get('*', (req, res) => {
       return handle(req, res)
     })
-
-    server.listen(port, (err) => {
-      if (err) throw err
-      console.log(`> Ready on http://localhost:${port}`)
-    })
+    ...    
   })
 ```
 
-`static/locales/en/common.json`
+### basic
+
+refer [basic](./examples/basic) | 参考 [basic](./examples/basic)
+
+[pages/index.js](./examples/basic/pages/index.js)
 
 ```
-{
-  "Home":"Home"
+...
+import { wrapper } from '../components/i18n'
+
+const translateNS = ['index']
+
+const Index = ({ t }) => (<div>
+  <Header />
+  <h1>{t('My Blog')}</h1>
+  ...
+</div>)
+
+
+const TIndex = translate(translateNS)(Index)
+TIndex.translateNS = [...translateNS, ...Header.translateNS]
+
+export default wrapper(TIndex)
+```
+
+### with layout | 使用 `_app.js` 
+
+refer [layout](./examples/layout) | 参考 [layout](./examples/layout)
+
+[components/layout.js](./examples/layout/components/layout.js)
+
+```
+import { wrapper } from './i18n'
+import Header from './Header'
+export default (Page) => {
+
+  const Layout = () => (<div>
+    <Header />
+    <Page />
+  </div>)
+
+  return wrapper(Layout, [...new Set([
+    ...Header.translateNS,
+    ...Page.translateNS
+  ])])
 }
 ```
 
-`static/locales/zh/common.json`
+### change language | 切换语言
+
+[components/Header.js](./examples/basic/components/Header.js)
 
 ```
-{
-  "Home":"首頁"
+import { useState } from 'react'
+import { i18nHelper } from '../components/i18n'
+
+const translateNS = ['common']
+
+const Header = () => {
+  const [lang, setLang] = useState(i18nHelper.getCurrentLanguage())
+  return (<p>
+    ...
+    <select value={lang} onChange={(e) => {
+      i18nHelper.setCurrentLanguage(e.target.value)
+      setLang(e.target.value)
+    }}>
+      <option value="en">English</option>
+      <option value="zh">中文</option>
+    </select>
+    ...
+  </p>)
 }
-```
 
-
-`static/locales/en/index.json`
-
-```
-{
-  "My Blog":"My Blog"
-}
-```
-
-`static/locales/zh/index.json`
-
-```
-{
-  "My Blog":"我的博客"
-}
-```
-
-
-## config
-
-```
-export const i18nHelper = new I18nHelper({
-  defaultLang: 'zh',
-  supportLangs: ['en','zh']
-})
-```
+## config | 配置
 
 ```
 /**
@@ -179,8 +141,4 @@ export default class I18nHelper {
   constructor(opt = {}) {
     ...
 ```
-
-
-## example
-example see [example](./example) 
-working site: http://nextjs.i18ntech.com/ code: https://github.com/nextjs-boilerplate/bootstrap
+for more refer [src/index.js](./src/index.js)

@@ -162,7 +162,7 @@ export default class I18nHelper {
   }
 
   async init(options) {
-    
+
     // console.log(`init I18nHelper`)
     await this.i18n.init({
       ...this.options,

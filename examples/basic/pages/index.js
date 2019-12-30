@@ -21,6 +21,7 @@ const Index = (props) => {
   </div>)
 }
 
-Index.translateNS = [...translateNS, ...Header.translateNS]
+const TIndex = translate(translateNS)(Index)
+TIndex.translateNS = [...translateNS, ...Header.translateNS]
 
-export default wrapper(translate(translateNS)(Index))
+export default wrapper(TIndex)

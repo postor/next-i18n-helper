@@ -1,6 +1,6 @@
 {
   "name": "next-i18n-helper",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -23,9 +23,7 @@
     "@babel/cli": "^7.7.7",
     "@babel/core": "^7.7.7",
     "@babel/plugin-transform-react-jsx": "^7.7.7",
-    "@babel/plugin-transform-runtime": "^7.7.6",
     "@babel/preset-env": "^7.7.7",
-    "@babel/runtime": "^7.7.7",
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "next": "^9.1.6",

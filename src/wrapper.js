@@ -2,8 +2,6 @@ import React from 'react'
 import getTranslation from './get-translation'
 import I18nHelper from './index'
 
-const isServerSide = (typeof window === 'undefined')
-
 export default (i18nHelper = new I18nHelper) => (Page, ns) => {
 
   class Wrapper extends React.Component {
@@ -19,7 +17,7 @@ export default (i18nHelper = new I18nHelper) => (Page, ns) => {
         ...pageInitialProps
       }
       if (!i18nHelper.inited) {
-        const ns = [...new Set(Page.translateNS)]
+        const ns = [...new Set(ns || Page.translateNS)]
         i18nHelper.init({
           translations,
           lang,
@@ -52,7 +50,7 @@ export default (i18nHelper = new I18nHelper) => (Page, ns) => {
         lng: lang,
         ns: translateNS
       })
-      // console.log(lang)
+      // console.log({lang})
       return {
         pageInitialProps,
         translations,
