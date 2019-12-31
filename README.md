@@ -86,10 +86,10 @@ export default (Page) => {
     <Page />
   </div>)
 
-  return wrapper(Layout, [...new Set([
+  return wrapper(Layout, [
     ...Header.translateNS,
     ...Page.translateNS
-  ])])
+  ])
 }
 ```
 
