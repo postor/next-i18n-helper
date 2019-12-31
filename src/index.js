@@ -48,6 +48,9 @@ export default class I18nHelper {
         react: {
           useSuspense: false,
         }
+      },
+      i18nInitCallBack = ()=>{
+        initReactI18next.init(i18n)
       }
     } = opt
     this.defaultLang = defaultLang
