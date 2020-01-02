@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { withTranslation as translate } from 'react-i18next'
+import translate from 'next-i18n-helper/dist/translate'
 import { i18nHelper } from '../components/i18n'
 
 const translateNS = ['common']

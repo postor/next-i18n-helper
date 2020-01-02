@@ -5,8 +5,6 @@ import XHR from 'i18next-xhr-backend'
 import cache from 'i18next-localstorage-cache'
 import wrapper from './wrapper'
 
-import { initReactI18next } from 'react-i18next'
-
 const isServerSide = (typeof window === 'undefined')
 
 
@@ -34,7 +32,7 @@ export default class I18nHelper {
       supportLangs = ['en'],
       langCookieName = 'lang',
       langCookieExpire = 365,
-      plugins = isServerSide ? [initReactI18next] : [initReactI18next, XHR, cache],
+      plugins = isServerSide ? [] : [XHR, cache],
       localesBaseUrl = '/static/locales',
       i18nOption = {
         cache: {
@@ -49,9 +47,6 @@ export default class I18nHelper {
           useSuspense: false,
         }
       },
-      i18nInitCallBack = ()=>{
-        initReactI18next.init(i18n)
-      }
     } = opt
     this.defaultLang = defaultLang
     this.supportLangs = supportLangs

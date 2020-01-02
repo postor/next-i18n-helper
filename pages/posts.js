@@ -1,5 +1,4 @@
-
-import { withTranslation as translate } from 'react-i18next'
+import translate from '../src/translate'
 import layout from '../components/layout'
 
 

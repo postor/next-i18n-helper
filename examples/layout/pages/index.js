@@ -1,5 +1,6 @@
 
-import { withTranslation as translate } from 'react-i18next'
+
+import translate from 'next-i18n-helper/dist/translate'
 import layout from '../components/layout'
 
 const translateNS = ['index']

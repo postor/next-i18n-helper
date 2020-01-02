@@ -1,12 +1,13 @@
 {
   "name": "next-i18n-helper",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "dev": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src -d dist --config-file=./babel.lib.json"
+    "build": "babel src -d dist --config-file=./babel.lib.json",
+    "copy": "copyfiles dist/* examples/basic/node_modules/next-i18n-helper"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "@babel/plugin-transform-runtime": "^7.7.6",
     "@babel/preset-env": "^7.7.7",
     "cookie-parser": "^1.4.4",
+    "copyfiles": "^2.1.1",
     "express": "^4.17.1",
     "next": "^9.1.6",
     "react-dom": "^16.12.0"

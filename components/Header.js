@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { withTranslation as translate } from 'react-i18next'
+import translate from '../src/translate'
 import Link from 'next/link'
 import { i18nHelper } from '../components/i18n'
 
