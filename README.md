@@ -2,6 +2,8 @@
 
 i18n for next.js | 给 next.js 适配多国语言
 
+quick glance: https://www.youtube.com/watch?v=npC7orrLsvE&list=PLM1v95K5B1ntVsYvNJIxgRPppngrO_X4s
+
 # usage | 使用
 
 install | 安装
