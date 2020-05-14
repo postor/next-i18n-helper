@@ -91,6 +91,7 @@ export default class I18nHelper {
     if (this.supportLangs.includes(fromCookie)) return fromCookie
 
     var locales = new locale.Locales(req.headers["accept-language"])
+    var supported = new locale.Locales(this.supportLangs, this.defaultLang)
     return locales.best(supported).language
   }
 
