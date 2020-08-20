@@ -7,7 +7,7 @@ import fetch from 'isomorphic-unfetch'
  * @param {Request} req Request 对象来自express
  * @return {i18n}  
  */
-export default (baseUrl) => {
+const getTranslation = (baseUrl) => {
   return async function getTranslation(lang, files, req) {
 
     if (!Array.isArray(files)) files = [files]
@@ -35,3 +35,5 @@ export default (baseUrl) => {
 export function apiUrls(path, req) {
   return req ? req.protocol + '://' + req.get('host') + path : path
 }
+
+export default getTranslation

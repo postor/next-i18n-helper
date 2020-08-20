@@ -1,7 +1,7 @@
 
 import { wrapper } from './i18n'
 import Header from './Header'
-export default (Page) => {
+const layout = (Page) => {
 
   const Layout = () => (<div>
     <Header />
@@ -13,3 +13,5 @@ export default (Page) => {
     ...Page.translateNS
   ])])
 }
+
+export default layout

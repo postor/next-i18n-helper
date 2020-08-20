@@ -30,6 +30,7 @@ export default class I18nHelper {
     const {
       defaultLang = 'en',
       supportLangs = ['en'],
+      forceInitalLanguage = undefined,
       langCookieName = 'lang',
       langCookieExpire = 365,
       plugins = isServerSide ? [] : [XHR, cache],
@@ -50,6 +51,7 @@ export default class I18nHelper {
     } = opt
     this.defaultLang = defaultLang
     this.supportLangs = supportLangs
+    this.forceInitalLanguage = forceInitalLanguage
     this.langCookieName = langCookieName
     this.langCookieExpire = langCookieExpire
     this.i18nOption = i18nOption
@@ -73,25 +75,35 @@ export default class I18nHelper {
    * @return {string}
    */
   getCurrentLanguage() {
-    var fromCookie = Cookies.get(this.langCookieName)
+    // from cookie
+    let fromCookie = Cookies.get(this.langCookieName)
     if (this.supportLangs.includes(fromCookie)) return fromCookie
-    var supported = new locale.Locales(this.supportLangs, this.defaultLang)
+
+    // force inital language
+    if(this.forceInitalLanguage) return this.forceInitalLanguage
+
+    // from browser
+    let supported = new locale.Locales(this.supportLangs, this.defaultLang)
     if (isServerSide) {
       return this.defaultLang
     }
-    var locales = new locale.Locales(navigator.language || navigator.userLanguage)
+    let locales = new locale.Locales(navigator.language || navigator.userLanguage)
     return locales.best(supported).language
   }
 
   getCurrentLanguageFromReq(req) {
     //from cookie
-    var fromCookie = req.cookies ? req.cookies[this.langCookieName] : ''
-    // console.log({fromCookie})
-
+    let fromCookie = req.cookies ? req.cookies[this.langCookieName] : ''
+    // console.log({ fromCookie })    
     if (this.supportLangs.includes(fromCookie)) return fromCookie
+    
+    // force inital language
+    if(this.forceInitalLanguage) return this.forceInitalLanguage
 
-    var locales = new locale.Locales(req.headers["accept-language"])
-    var supported = new locale.Locales(this.supportLangs, this.defaultLang)
+    // from browser
+    let locales = new locale.Locales(req.headers["accept-language"])
+    let supported = new locale.Locales(this.supportLangs, this.defaultLang)
+    // console.log({ locales, supported })
     return locales.best(supported).language
   }
 
@@ -132,8 +144,8 @@ export default class I18nHelper {
 
 
   innerGetI18n(i18nPlugins) {
-    var ns = ['common']
-    var options = {
+    let ns = ['common']
+    let options = {
       lng: this.getCurrentLanguage(), // active language http://i18next.com/translate/
       fallbackLng: this.defaultLang,
       ns,

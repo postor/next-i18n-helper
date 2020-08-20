@@ -9,7 +9,7 @@ import { initReactI18next } from 'react-i18next'
 const isServerSide = (typeof window === 'undefined')
 const i18nCache = new OneTimeStore()
 
-export default (i18nHelper = new I18nHelper) => (Page, ns1) => {
+const wrapper = (i18nHelper = new I18nHelper) => (Page, ns1) => {
 
   class Wrapper extends React.Component {
     constructor(props) {
@@ -46,6 +46,7 @@ export default (i18nHelper = new I18nHelper) => (Page, ns1) => {
       //translation
       const translateNS = [...new Set(ns1 || Page.translateNS)]
       const lang = i18nHelper.getCurrentLanguageFromReq(ctx.req)
+      console.log({ lang })
       const translations = await getTranslation(i18nHelper.localesBaseUrl)(
         lang,
         translateNS,
@@ -88,3 +89,4 @@ export default (i18nHelper = new I18nHelper) => (Page, ns1) => {
   }
   return Wrapper
 }
+export default wrapper

@@ -12,13 +12,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cookie-parser": "^1.4.4",
-    "cross-env": "^6.0.3",
+    "cookie-parser": "^1.4.5",
+    "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "next": "beta",
-    "next-i18n-helper": "^1.0.25",
+    "next-i18n-helper": "^1.0.29",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-i18next": "^11.2.7"
+    "react-i18next": "^11.7.0"
   }
 }

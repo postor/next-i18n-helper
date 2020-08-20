@@ -1,5 +1,6 @@
+!dist
 examples
 pages
 server.js
 components
-!dist
+.next
