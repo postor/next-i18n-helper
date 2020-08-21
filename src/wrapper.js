@@ -46,7 +46,7 @@ const wrapper = (i18nHelper = new I18nHelper) => (Page, ns1) => {
       //translation
       const translateNS = [...new Set(ns1 || Page.translateNS)]
       const lang = i18nHelper.getCurrentLanguageFromReq(ctx.req)
-      console.log({ lang })
+      // console.log({ lang })
       const translations = await getTranslation(i18nHelper.localesBaseUrl)(
         lang,
         translateNS,

@@ -131,8 +131,8 @@ export default class I18nHelper {
   /**
    * Creates an instance of I18nHelper.
    * @param {Object} opt
-   * @param {string} [opt.forceInitalLanguage = 'en'] default language
-   * @param {string} [opt.defaultLang = 'en'] default language
+   * @param {string} [opt.forceInitalLanguage = 'en'] force inital language(cookie=>forceInitalLanguage=>browser-setting=>default)
+   * @param {string} [opt.defaultLang = 'en'] default language(cookie=>forceInitalLanguage=>browser-setting=>default)
    * @param {string[]} [opt.supportLangs = ['en']] support languages
    * @param {string} [opt.langCookieName = 'lang'] cookie to remember selected language
    * @param {number} [opt.langCookieExpire = 365] cookie expires in xxx days
