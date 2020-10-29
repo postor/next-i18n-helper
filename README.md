@@ -1,5 +1,9 @@
 # next-i18n-helper
 
+next 10 has i18n built in, so this project archived. | next 10 已经支持多语言，所以这个项目存档
+
+---------------
+
 i18n for next.js | 给 next.js 适配多国语言
 
 quick glance: https://www.youtube.com/watch?v=npC7orrLsvE&list=PLM1v95K5B1ntVsYvNJIxgRPppngrO_X4s
