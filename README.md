@@ -1,6 +1,6 @@
 # next-i18n-helper
 
-next 10 has i18n built in, so this project archived. | next 10 已经支持多语言，所以这个项目存档
+next 10 has i18n built in, so this project archived, for next 10 solution refer https://github.com/postor/next-i18n-loader. | next 10 已经支持多语言，所以这个项目存档，在 next 10 上的多语言方案可以参考 https://github.com/postor/next-i18n-loader
 
 ---------------
 
